@@ -26,10 +26,12 @@ const Index = () => {
   useEffect(() => {
     if (window.AOS) {
       window.AOS.init({
-        duration: 600,
-        once: true,
-        offset: 50,
-        delay: 0
+        duration: 700,
+        once: false,
+        mirror: true,
+        offset: 80,
+        delay: 0,
+        easing: 'ease-out-cubic'
       });
     }
 
@@ -47,21 +49,31 @@ const Index = () => {
       <MenuSuperior />
       
       {/* Hero Section */}
-      <HeroSection />
+      <div data-aos="fade-up" data-aos-duration="650">
+        <HeroSection />
+      </div>
       
-      {/* Planos - sem div wrapper */}
-      <PublicPlansSection />
+      {/* Planos */}
+      <div data-aos="fade-up" data-aos-duration="650" data-aos-delay="80">
+        <PublicPlansSection />
+      </div>
       
       {/* Content sections */}
       <div className="w-full">
         {/* Como Funciona - segunda seção */}
-        <ResponsiveHowItWorksSection />
+        <div data-aos="fade-up" data-aos-duration="650">
+          <ResponsiveHowItWorksSection />
+        </div>
 
         {/* Depoimentos */}
-        <Testimonials />
+        <div data-aos="fade-up" data-aos-duration="650">
+          <Testimonials />
+        </div>
       </div>
       
-      <SimpleFooter />
+      <div data-aos="fade-up" data-aos-duration="650">
+        <SimpleFooter />
+      </div>
       <SocialMediaButtons />
     </PageLayout>
   );

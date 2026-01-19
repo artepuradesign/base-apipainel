@@ -90,13 +90,13 @@ const ResponsiveHowItWorksSection = () => {
   ];
 
   return (
-    <section className="py-8 md:py-10 bg-gray-50/80 dark:bg-gray-900/80">
+    <section className="py-8 md:py-10 bg-background/60 backdrop-blur-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
         <div className="text-center mb-6" data-aos="fade-up" data-aos-duration="500">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
             Como Funciona
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base">
+          <p className="text-muted-foreground text-sm md:text-base">
             4 passos simples para começar
           </p>
         </div>
@@ -106,28 +106,28 @@ const ResponsiveHowItWorksSection = () => {
           {steps.map((step, index) => (
             <div 
               key={step.number}
-              className="group bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 transition-all duration-300 flex flex-col"
+              className="group rounded-xl p-4 shadow-sm hover:shadow-md border border-border bg-card/90 text-card-foreground backdrop-blur-sm transition-all duration-300 flex flex-col"
               data-aos="fade-up"
-              data-aos-duration="400"
-              data-aos-delay={index * 50}
+              data-aos-duration="450"
+              data-aos-delay={index * 60}
             >
               {/* Número e título inline */}
               <div className="flex items-center gap-2 mb-2">
-                <span className="w-7 h-7 bg-brand-purple text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">
+                <span className="w-7 h-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold shrink-0">
                   {step.number}
                 </span>
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white leading-tight">
+                <h3 className="text-sm font-semibold text-foreground leading-tight">
                   {step.title}
                 </h3>
               </div>
               
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 flex-grow line-clamp-2">
+              <p className="text-xs text-muted-foreground mb-3 flex-grow line-clamp-2">
                 {step.description}
               </p>
               
               <Button 
                 size="sm"
-                className="w-full bg-brand-purple hover:bg-brand-darkPurple text-white text-xs py-1.5 h-auto"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs py-1.5 h-auto"
                 onClick={step.buttonAction}
               >
                 {step.buttonText}
