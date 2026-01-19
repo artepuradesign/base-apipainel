@@ -180,9 +180,7 @@ const Hero = () => {
               transition={{ duration: 0.5, ease: 'easeOut' }}
               className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground leading-tight"
             >
-              Consultas inteligentes de
-              <span className="block text-primary">CPF e CNPJ</span>
-              para decisões mais rápidas
+              Consultas inteligentes.
             </motion.h1>
 
             <motion.p
@@ -191,8 +189,7 @@ const Hero = () => {
               transition={{ duration: 0.55, delay: 0.05, ease: 'easeOut' }}
               className="mt-4 text-base sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0"
             >
-              Uma experiência moderna para consultar, validar e organizar informações —
-              com foco em velocidade, segurança e clareza.
+              CPF e CNPJ — consultar, validar e organizar informações com foco em velocidade, segurança e clareza.
             </motion.p>
 
             <motion.div
@@ -209,27 +206,22 @@ const Hero = () => {
               </Button>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {features.map(({ title, desc, Icon }) => (
-                <motion.div
-                  key={title}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, ease: 'easeOut' }}
-                  className="rounded-xl border border-border bg-card/60 backdrop-blur-sm p-4 hover:shadow-sm transition-shadow"
-                >
-                  <div className="flex items-start gap-3">
-                    <div className="mt-0.5 rounded-md border border-border bg-background p-2">
-                      <Icon className="h-4 w-4 text-primary" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium text-foreground">{title}</div>
-                      <div className="text-xs text-muted-foreground mt-1">{desc}</div>
-                    </div>
-                  </div>
-                </motion.div>
+            <motion.ul
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.15, ease: 'easeOut' }}
+              className="mt-6 flex flex-wrap gap-2 justify-center lg:justify-start"
+              aria-label="Destaques"
+            >
+              {features.map(({ title, Icon }) => (
+                <li key={title}>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 backdrop-blur-sm px-3 py-1.5 text-xs text-foreground">
+                    <Icon className="h-3.5 w-3.5 text-primary" />
+                    {title}
+                  </span>
+                </li>
               ))}
-            </div>
+            </motion.ul>
           </div>
 
           {/* Mockup + Consulta */}
