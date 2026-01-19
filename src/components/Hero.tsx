@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useMemo, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Search } from 'lucide-react';
+import { Search, Sparkles, ShieldCheck, Zap } from 'lucide-react';
 import { toast } from "sonner";
-import { motion } from "framer-motion";
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+
 const Hero = () => {
   const navigate = useNavigate();
   const [documentType, setDocumentType] = useState<string>("cpf");
   const [documentNumber, setDocumentNumber] = useState<string>("");
 
+  // Interação sutil (efeito "spotlight")
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mx}px ${my}px, hsl(var(--primary) / 0.12), transparent 60%)`;
+
   // Verificar se o usuário está logado
   const isAuthenticated = () => {
     return localStorage.getItem("auth_token") !== null;
   };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -35,27 +41,27 @@ const Hero = () => {
             if (authUser) {
               const user = JSON.parse(authUser);
               const userId = user.id;
-              
+
               // Obter saldos
               const walletBalance = parseFloat(localStorage.getItem(`wallet_balance_${userId}`) || '0');
               const planBalance = parseFloat(localStorage.getItem(`plan_balance_${userId}`) || '0');
               const totalBalance = walletBalance + planBalance;
-              
+
               // Se saldo for 0, fazer logout
               if (totalBalance === 0) {
                 console.log('🚫 [HERO] Saldo zerado, fazendo logout...');
-                
+
                 // Limpar dados de autenticação
                 localStorage.removeItem('auth_token');
                 localStorage.removeItem('auth_user');
                 localStorage.removeItem('session_token');
                 document.cookie = 'session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                 document.cookie = 'auth_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-                
+
                 toast.success('Saldo atualizado!', {
                   description: 'Sua sessão foi encerrada pois seu saldo é zero.'
                 });
-                
+
                 // Redirecionar para login
                 setTimeout(() => {
                   navigate('/login');
@@ -91,11 +97,11 @@ const Hero = () => {
     const targetPage = documentType === "cpf" ? "/dashboard/consultar-cpf-puxa-tudo" : "/dashboard/consultar-cnpj";
     navigate(`${targetPage}?query=${encodeURIComponent(documentNumber)}&autoSearch=true`);
   };
+
   const formatDocument = (value: string) => {
-    // Remove non-numeric characters
     const numericValue = value.replace(/\D/g, '');
+
     if (documentType === "cpf") {
-      // Format as CPF: 000.000.000-00
       if (numericValue.length <= 11) {
         let formattedValue = numericValue;
         if (numericValue.length > 9) {
@@ -108,7 +114,6 @@ const Hero = () => {
         return formattedValue;
       }
     } else {
-      // Format as CNPJ: 00.000.000/0000-00
       if (numericValue.length <= 14) {
         let formattedValue = numericValue;
         if (numericValue.length > 12) {
@@ -125,146 +130,203 @@ const Hero = () => {
     }
     return value;
   };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatDocument(e.target.value);
     setDocumentNumber(formatted);
   };
-  const titleVariants = {
-    hidden: {
-      opacity: 0,
-      y: -20
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        staggerChildren: 0.1,
-        ease: "easeInOut"
-      }
-    }
-  };
-  return (
-    <div className="py-8 md:py-12">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-center">
-          {/* Left side - Text */}
-          <div className="w-full lg:w-1/2 text-center lg:text-left">
-            <motion.h1 
-              initial="hidden" 
-              animate="visible" 
-              variants={titleVariants} 
-              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3 leading-tight"
-            >
-              Síntese Cadastral
-              <br />
-              <span className="text-brand-purple dark:text-purple-400">através do CPF ou CNPJ</span>
-            </motion.h1>
-            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 max-w-lg mx-auto lg:mx-0">
-              Ferramenta completa para retorno de Score Serasa e síntese cadastral.
-            </p>
-            <Button 
-              onClick={() => navigate('/planos-publicos')}
-              size="sm"
-              className="bg-brand-purple hover:bg-brand-darkPurple text-white px-6 py-2 text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300"
-            >
-              Conheça nossos planos
-            </Button>
-          </div>
 
-          {/* Right side - Compact Search Card */}
-          <div className="w-full lg:w-1/2 max-w-sm mx-auto lg:mx-0">
-            <div className="relative">
-              {/* Glass effect background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/10 to-purple-600/10 dark:from-purple-900/20 dark:to-purple-600/20 rounded-2xl blur-xl" />
-              
-              {/* Main card */}
-              <div className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl border border-white/50 dark:border-gray-700/50 shadow-xl overflow-hidden">
-                {/* Header */}
-                <div className="bg-gradient-to-r from-brand-purple/10 to-purple-600/10 dark:from-purple-900/30 dark:to-purple-800/30 px-4 py-3 border-b border-gray-100/50 dark:border-gray-700/50">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-brand-purple/20 dark:bg-purple-600/30 flex items-center justify-center">
-                      <Search className="w-4 h-4 text-brand-purple dark:text-purple-400" />
+  const features = useMemo(
+    () => [
+      {
+        title: 'Velocidade',
+        desc: 'Respostas rápidas e estáveis para seu fluxo de trabalho.',
+        Icon: Zap
+      },
+      {
+        title: 'Segurança',
+        desc: 'Consultas com camadas extras de proteção e controle.',
+        Icon: ShieldCheck
+      },
+      {
+        title: 'Qualidade',
+        desc: 'Retorno consistente para tomada de decisão.',
+        Icon: Sparkles
+      }
+    ],
+    []
+  );
+
+  return (
+    <section className="relative overflow-hidden">
+      <motion.div
+        className="absolute inset-0"
+        style={{ backgroundImage: spotlight }}
+        onMouseMove={(e) => {
+          const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+          mx.set(e.clientX - rect.left);
+          my.set(e.clientY - rect.top);
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-10 sm:py-14">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          {/* Texto */}
+          <div className="lg:col-span-6 text-center lg:text-left">
+            <motion.h1
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground leading-tight"
+            >
+              Consultas inteligentes de
+              <span className="block text-primary">CPF e CNPJ</span>
+              para decisões mais rápidas
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.05, ease: 'easeOut' }}
+              className="mt-4 text-base sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0"
+            >
+              Uma experiência moderna para consultar, validar e organizar informações —
+              com foco em velocidade, segurança e clareza.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.1, ease: 'easeOut' }}
+              className="mt-6 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start"
+            >
+              <Button asChild size="lg">
+                <Link to="/registration">Começar agora</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link to="/planos-publicos">Ver planos</Link>
+              </Button>
+            </motion.div>
+
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {features.map(({ title, desc, Icon }) => (
+                <motion.div
+                  key={title}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, ease: 'easeOut' }}
+                  className="rounded-xl border border-border bg-card/60 backdrop-blur-sm p-4 hover:shadow-sm transition-shadow"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 rounded-md border border-border bg-background p-2">
+                      <Icon className="h-4 w-4 text-primary" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Consulta Rápida</h3>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">CPF ou CNPJ</p>
+                      <div className="text-sm font-medium text-foreground">{title}</div>
+                      <div className="text-xs text-muted-foreground mt-1">{desc}</div>
                     </div>
                   </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mockup + Consulta */}
+          <div className="lg:col-span-6">
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="relative"
+            >
+              {/* “Janela” do mockup */}
+              <div className="rounded-2xl border border-border bg-card/70 backdrop-blur-md shadow-sm overflow-hidden">
+                <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-background/40">
+                  <span className="h-2.5 w-2.5 rounded-full bg-muted" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-muted" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-muted" />
+                  <span className="ml-2 text-xs text-muted-foreground">Consulta rápida</span>
                 </div>
-                
-                {/* Content */}
-                <div className="p-4">
-                  <Tabs defaultValue="cpf" onValueChange={setDocumentType}>
-                    <TabsList className="grid w-full grid-cols-2 h-8 p-0.5 bg-gray-100/80 dark:bg-gray-700/80 rounded-lg">
-                      <TabsTrigger 
-                        value="cpf" 
-                        className="text-xs h-7 rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-gray-600 data-[state=active]:shadow-sm"
-                      >
-                        CPF
-                      </TabsTrigger>
-                      <TabsTrigger 
-                        value="cnpj" 
-                        className="text-xs h-7 rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-gray-600 data-[state=active]:shadow-sm"
-                      >
-                        CNPJ
-                      </TabsTrigger>
-                    </TabsList>
-                    
-                    <form onSubmit={handleSearch} className="mt-3 space-y-3">
-                      <TabsContent value="cpf" className="mt-0">
-                        <div className="relative">
-                          <Input 
-                            id="cpf" 
-                            type="text" 
-                            placeholder="000.000.000-00" 
-                            value={documentNumber} 
-                            onChange={handleInputChange} 
-                            maxLength={14} 
-                            className="pr-9 h-10 text-sm bg-gray-50/80 dark:bg-gray-700/80 border-gray-200/80 dark:border-gray-600/80 rounded-lg focus:ring-2 focus:ring-brand-purple/30"
-                          />
-                          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                        </div>
-                      </TabsContent>
-                      
-                      <TabsContent value="cnpj" className="mt-0">
-                        <div className="relative">
-                          <Input 
-                            id="cnpj" 
-                            type="text" 
-                            placeholder="00.000.000/0000-00" 
-                            value={documentNumber} 
-                            onChange={handleInputChange} 
-                            maxLength={18} 
-                            className="pr-9 h-10 text-sm bg-gray-50/80 dark:bg-gray-700/80 border-gray-200/80 dark:border-gray-600/80 rounded-lg focus:ring-2 focus:ring-brand-purple/30"
-                          />
-                          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                        </div>
-                      </TabsContent>
-                      
-                      <Button 
-                        type="submit" 
-                        className="w-full h-9 text-sm font-medium bg-brand-purple hover:bg-brand-darkPurple dark:bg-purple-600 dark:hover:bg-purple-700 rounded-lg shadow-md hover:shadow-lg transition-all"
-                      >
-                        <Search className="w-3.5 h-3.5 mr-1.5" />
-                        Consultar
-                      </Button>
-                    </form>
-                  </Tabs>
-                </div>
-                
-                {/* Footer */}
-                <div className="px-4 py-2 bg-gray-50/50 dark:bg-gray-800/50 border-t border-gray-100/50 dark:border-gray-700/50">
-                  <p className="text-[10px] text-gray-400 dark:text-gray-500 text-center">
-                    Dados obtidos de fontes oficiais • Consulta de demonstração
-                  </p>
+
+                <div className="p-5">
+                  <div className="rounded-xl border border-border bg-background/60 p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="rounded-md border border-border bg-background p-2">
+                        <Search className="h-4 w-4 text-primary" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium text-foreground">Consultar agora</div>
+                        <div className="text-xs text-muted-foreground">CPF ou CNPJ</div>
+                      </div>
+                    </div>
+
+                    <Tabs defaultValue="cpf" onValueChange={setDocumentType}>
+                      <TabsList className="grid w-full grid-cols-2 h-9 p-1 bg-muted/60 rounded-lg">
+                        <TabsTrigger value="cpf" className="text-xs h-7 rounded-md">
+                          CPF
+                        </TabsTrigger>
+                        <TabsTrigger value="cnpj" className="text-xs h-7 rounded-md">
+                          CNPJ
+                        </TabsTrigger>
+                      </TabsList>
+
+                      <form onSubmit={handleSearch} className="mt-4 space-y-3">
+                        <TabsContent value="cpf" className="mt-0">
+                          <div className="relative">
+                            <Input
+                              id="cpf"
+                              type="text"
+                              placeholder="000.000.000-00"
+                              value={documentNumber}
+                              onChange={handleInputChange}
+                              maxLength={14}
+                              className="pr-10 h-11"
+                            />
+                            <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                          </div>
+                        </TabsContent>
+
+                        <TabsContent value="cnpj" className="mt-0">
+                          <div className="relative">
+                            <Input
+                              id="cnpj"
+                              type="text"
+                              placeholder="00.000.000/0000-00"
+                              value={documentNumber}
+                              onChange={handleInputChange}
+                              maxLength={18}
+                              className="pr-10 h-11"
+                            />
+                            <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                          </div>
+                        </TabsContent>
+
+                        <Button type="submit" className="w-full h-11">
+                          <Search className="h-4 w-4" />
+                          Consultar
+                        </Button>
+                      </form>
+                    </Tabs>
+
+                    <p className="mt-4 text-[11px] text-muted-foreground text-center">
+                      Dados obtidos de fontes oficiais • Consulta de demonstração
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+
+              {/* Glow */}
+              <div
+                className="pointer-events-none absolute -inset-6 -z-10 blur-2xl opacity-60"
+                style={{ background: 'radial-gradient(600px circle at 30% 30%, hsl(var(--primary) / 0.18), transparent 60%)' }}
+                aria-hidden="true"
+              />
+            </motion.div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
