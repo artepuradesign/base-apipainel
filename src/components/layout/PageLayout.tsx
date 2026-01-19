@@ -2,6 +2,8 @@
 import React from 'react';
 import GlobalAnimatedBackground from './GlobalAnimatedBackground';
 
+import homeBgVideo from "@/assets/home-bg.mp4";
+
 interface PageLayoutProps {
   children: React.ReactNode;
   variant?: 'default' | 'landing' | 'dashboard' | 'auth';
@@ -21,6 +23,15 @@ const PageLayout = ({
   
   return (
     <div className={`min-h-screen relative ${isDashboard ? 'dashboard-page' : ''} ${className}`}>
+      {/* Vídeo de fundo (somente na Home/tema claro) */}
+      {variant === 'landing' && (
+        <div className="fixed inset-0 -z-30 dark:hidden" aria-hidden="true">
+          <video className="h-full w-full object-cover" autoPlay muted loop playsInline preload="auto">
+            <source src={homeBgVideo} type="video/mp4" />
+          </video>
+        </div>
+      )}
+
       {/* Fundo animado global */}
       <GlobalAnimatedBackground variant={variant} opacity={backgroundOpacity} />
 
