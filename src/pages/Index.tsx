@@ -39,8 +39,8 @@ const Index = () => {
 
   return (
     <PageLayout 
-      variant="landing" 
-      backgroundOpacity="light" 
+      variant="auth" 
+      backgroundOpacity="strong" 
       showGradients={false}
       className="flex flex-col"
     >
