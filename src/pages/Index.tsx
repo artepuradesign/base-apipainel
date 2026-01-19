@@ -14,7 +14,7 @@ const Index = () => {
     <PageLayout
       variant="landing"
       backgroundOpacity="medium"
-      showGradients={true}
+      showGradients={false}
       className="flex flex-col"
     >
       <MenuSuperior />
