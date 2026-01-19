@@ -1,10 +1,16 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
 const HowItWorksSection = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (window.AOS) {
+      window.AOS.refresh();
+    }
+  }, []);
 
   const handleCreateAccount = () => {
     navigate('/registration');

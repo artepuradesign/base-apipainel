@@ -235,10 +235,10 @@ const PublicPlansSection = () => {
     
     return (
       <div className="w-full max-w-[220px] mx-auto">
-        <div className={`relative rounded-xl p-4 shadow-md hover:shadow-lg border backdrop-blur-md transition-all duration-300 hover:-translate-y-1 h-full flex flex-col bg-white/80 dark:bg-gray-800/80 border-white/20 dark:border-gray-700/30 ${
-          plan.is_popular
-            ? 'ring-1 ring-brand-purple/30'
-            : ''
+        <div className={`relative bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm hover:shadow-lg border transition-all duration-300 hover:-translate-y-1 h-full flex flex-col ${
+          plan.is_popular 
+            ? 'border-purple-400 dark:border-purple-500 ring-1 ring-purple-400/50' 
+            : 'border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-600'
         }`}>
           
           {/* Badge popular */}

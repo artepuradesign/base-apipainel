@@ -143,15 +143,6 @@
   transform: translateY(0);
 }
 
-/* AOS: mantém textos legíveis mesmo antes de animar */
-[data-aos].aos-init:not(.aos-animate) {
-  opacity: 0.85 !important;
-}
-
-[data-aos].aos-animate {
-  opacity: 1 !important;
-}
-
 /* Enhanced blob animation */
 @keyframes blob {
   0%, 100% {

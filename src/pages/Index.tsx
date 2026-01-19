@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useEffect } from 'react';
 import MenuSuperior from '@/components/MenuSuperior';
 import HeroSection from '@/components/sections/HeroSection';
 import PublicPlansSection from '@/components/sections/PublicPlansSection';
@@ -6,41 +7,60 @@ import Testimonials from '@/components/Testimonials';
 import SimpleFooter from '@/components/SimpleFooter';
 import ResponsiveHowItWorksSection from '@/components/sections/ResponsiveHowItWorksSection';
 import PageLayout from '@/components/layout/PageLayout';
-import LandingSection from '@/components/layout/LandingSection';
+
 import SocialMediaButtons from '@/components/SocialMediaButtons';
 
+// Import AOS with type definition
+declare global {
+  interface Window {
+    AOS: {
+      init: (params: any) => void;
+      refresh: () => void;
+    }
+  }
+}
+
 const Index = () => {
+
+  // Initialize AOS when component mounts
+  useEffect(() => {
+    if (window.AOS) {
+      window.AOS.init({
+        duration: 600,
+        once: true,
+        offset: 50,
+        delay: 0
+      });
+    }
+
+  }, []);
+
+  // Remover o redirecionamento automático - usuário logado pode navegar pelo site
+
   return (
-    <PageLayout
-      variant="landing"
-      backgroundOpacity="medium"
-      showGradients={false}
+    <PageLayout 
+      variant="landing" 
+      backgroundOpacity="medium" 
+      showGradients={true}
       className="flex flex-col"
     >
       <MenuSuperior />
-
-      <main className="w-full">
-        {/* Hero (sessão inicial) */}
-        <LandingSection className="pt-6 sm:pt-10 pb-8 sm:pb-12">
-          <HeroSection />
-        </LandingSection>
-
-        {/* Planos (vender primeiro) */}
-        <LandingSection id="planos" tone="elevated" className="py-8 sm:py-12">
-          <PublicPlansSection />
-        </LandingSection>
-
-        {/* Como funciona */}
-        <LandingSection id="como-funciona" tone="muted" className="py-8 sm:py-12">
-          <ResponsiveHowItWorksSection />
-        </LandingSection>
+      
+      {/* Hero Section */}
+      <HeroSection />
+      
+      {/* Planos - sem div wrapper */}
+      <PublicPlansSection />
+      
+      {/* Content sections */}
+      <div className="w-full">
+        {/* Como Funciona - segunda seção */}
+        <ResponsiveHowItWorksSection />
 
         {/* Depoimentos */}
-        <LandingSection id="depoimentos" className="py-8 sm:py-12">
-          <Testimonials />
-        </LandingSection>
-      </main>
-
+        <Testimonials />
+      </div>
+      
       <SimpleFooter />
       <SocialMediaButtons />
     </PageLayout>

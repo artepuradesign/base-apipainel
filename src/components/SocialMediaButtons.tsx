@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import whatsappIcon from '@/assets/whatsapp-icon.svg';
 import { Send } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 const SocialMediaButtons = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -119,24 +118,20 @@ const SocialMediaButtons = () => {
       </button>
 
       {/* WhatsApp Button - Always Visible */}
-      <motion.button
+      <button
         onClick={handleWhatsAppClick}
-        className="w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 group relative"
+        className="w-[60px] h-[60px] rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 group relative"
         aria-label="Suporte Humanizado"
-        animate={{ y: [0, -4, 0] }}
-        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <motion.img
-          src={whatsappIcon}
-          alt="WhatsApp"
+        <img 
+          src={whatsappIcon} 
+          alt="WhatsApp" 
           className="w-full h-full"
-          animate={{ scale: [1, 1.06, 1] }}
-          transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
         />
-        <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[#25D366] text-white px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+        <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[#25D366] text-white px-3 py-1 rounded-lg text-sm font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
           {isExpanded ? 'Abrir WhatsApp' : 'Clique para expandir'}
         </span>
-      </motion.button>
+      </button>
     </div>
   );
 };
