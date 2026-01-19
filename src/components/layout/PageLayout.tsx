@@ -20,9 +20,11 @@ const PageLayout = ({
   const isDashboard = variant === 'dashboard';
   
   return (
-    <div className={`min-h-screen relative ${isDashboard ? 'dashboard-page' : ''} ${className}`}>
-      {/* Fundo animado global */}
-      <GlobalAnimatedBackground variant={variant} opacity={backgroundOpacity} />
+    <div className={`min-h-screen relative bg-background ${isDashboard ? 'dashboard-page' : ''} ${className}`}>
+      {/* Fundo (opcional): gradientes + blobs */}
+      {showGradients && !isDashboard && (
+        <GlobalAnimatedBackground variant={variant} opacity={backgroundOpacity} />
+      )}
 
       {/* Degradês opcionais */}
       {showGradients && !isDashboard && (
@@ -34,6 +36,7 @@ const PageLayout = ({
           <div className="fixed bottom-0 left-0 w-full h-96 z-10 site-gradient-bottom dark:site-gradient-bottom-dark pointer-events-none"></div>
         </>
       )}
+
 
       {/* Conteúdo principal */}
       <div className="relative z-20">
