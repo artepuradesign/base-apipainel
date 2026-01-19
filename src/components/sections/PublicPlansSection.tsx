@@ -234,102 +234,107 @@ const PublicPlansSection = () => {
     const remainingFeatures = features.length - 4;
     
     return (
-      <div className="w-full max-w-[220px] mx-auto">
-        <div className={`relative bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm hover:shadow-lg border transition-all duration-300 hover:-translate-y-1 h-full flex flex-col ${
-          plan.is_popular 
-            ? 'border-purple-400 dark:border-purple-500 ring-1 ring-purple-400/50' 
-            : 'border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-600'
-        }`}>
-          
-          {/* Badge popular */}
-          {plan.is_popular && (
-            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
-              <span className="px-2 py-0.5 bg-purple-500 text-white text-xs font-medium rounded-full">
-                {plan.badge || 'Popular'}
-              </span>
-            </div>
-          )}
-          
-          {/* Header compacto */}
-          <div className="flex items-start justify-between mb-3">
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-bold text-gray-900 dark:text-white truncate mb-1">
-                {plan.name}
-              </h3>
-              <span className="inline-flex items-center px-1.5 py-0.5 bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 text-xs rounded">
-                {plan.duration_days} dias
-              </span>
-            </div>
-            <div className="text-right shrink-0 ml-2">
-              <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
-                {plan.priceFormatted || formatCurrency(plan.price)}
-              </div>
-              {plan.discount_percentage > 0 && (
-                <span className="text-xs text-green-600 font-medium">
-                  -{plan.discount_percentage}%
+      <div className="w-full max-w-[240px] mx-auto">
+        <Card
+          className={`h-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-white/20 dark:border-gray-700/30 shadow-md hover:shadow-lg transition-all duration-300 group ${
+            plan.is_popular ? 'ring-1 ring-purple-400/40 dark:ring-purple-500/40' : ''
+          }`}
+        >
+          <CardContent className="p-4 h-full flex flex-col">
+            {/* Badge popular */}
+            {plan.is_popular && (
+              <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
+                <span className="px-2 py-0.5 bg-purple-500 text-white text-xs font-medium rounded-full">
+                  {plan.badge || 'Popular'}
                 </span>
+              </div>
+            )}
+
+            {/* Header compacto */}
+            <div className="flex items-start justify-between gap-3 mb-3">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white truncate mb-1">
+                  {plan.name}
+                </h3>
+                <span className="inline-flex items-center px-1.5 py-0.5 bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 text-xs rounded">
+                  {plan.duration_days} dias
+                </span>
+              </div>
+              <div className="text-right shrink-0">
+                <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
+                  {plan.priceFormatted || formatCurrency(plan.price)}
+                </div>
+                {plan.discount_percentage > 0 && (
+                  <span className="text-xs text-green-600 font-medium">
+                    -{plan.discount_percentage}%
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Descrição curta */}
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 line-clamp-2">
+              {plan.description}
+            </p>
+
+            {/* Features compactas */}
+            <div className="space-y-1.5 mb-4 flex-grow">
+              {visibleFeatures.map((feature: string, index: number) => (
+                <div key={index} className="flex items-start gap-1.5 text-xs text-gray-600 dark:text-gray-300">
+                  <Check className="h-3 w-3 text-green-500 shrink-0 mt-0.5" />
+                  <span className="line-clamp-1">{feature}</span>
+                </div>
+              ))}
+              {remainingFeatures > 0 && (
+                <div className="text-xs text-gray-400 dark:text-gray-500">
+                  +{remainingFeatures} mais
+                </div>
               )}
             </div>
-          </div>
-          
-          {/* Descrição curta */}
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 line-clamp-2">
-            {plan.description}
-          </p>
-          
-          {/* Features compactas */}
-          <div className="space-y-1.5 mb-4 flex-grow">
-            {visibleFeatures.map((feature: string, index: number) => (
-              <div key={index} className="flex items-start gap-1.5 text-xs text-gray-600 dark:text-gray-400">
-                <Check className="h-3 w-3 text-green-500 shrink-0 mt-0.5" />
-                <span className="line-clamp-1">{feature}</span>
-              </div>
-            ))}
-            {remainingFeatures > 0 && (
-              <div className="text-xs text-gray-400 dark:text-gray-500">
-                +{remainingFeatures} mais
-              </div>
-            )}
-          </div>
-          
-          {/* Botões */}
-          <div className="space-y-1.5 mt-auto">
-            <Button 
-              size="sm"
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs h-8"
-              onClick={() => handlePlanSelection(plan)}
-            >
-              Adquirir
-            </Button>
-            
-            {user && hasSufficientBalance && (
-              <Button 
+
+            {/* Botões */}
+            <div className="space-y-1.5 mt-auto">
+              <Button
                 size="sm"
-                className="w-full bg-green-600 hover:bg-green-700 text-white text-xs h-8"
-                onClick={() => handleUpgradePlan(plan)}
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs h-8"
+                onClick={() => handlePlanSelection(plan)}
               >
-                <CreditCard className="h-3 w-3 mr-1" />
-                Upgrade
+                Adquirir
               </Button>
-            )}
-          </div>
-          
-          {user && !hasSufficientBalance && (
-            <div className="mt-2 text-center">
-              <p className="text-xs text-red-500 mb-1">
-                +R$ {(planPrice - userWalletBalance).toFixed(2)} para Upgrade
-              </p>
-              <Button 
-                variant="ghost"
-                size="sm"
-                className="text-xs text-green-600 hover:text-green-700 h-6 px-2"
-                onClick={() => navigate(`/dashboard/adicionar-saldo?valor=${(planPrice - userWalletBalance).toFixed(2)}`)}
-              >
-                Adicionar Saldo
-              </Button>
+
+              {user && hasSufficientBalance && (
+                <Button
+                  size="sm"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white text-xs h-8"
+                  onClick={() => handleUpgradePlan(plan)}
+                >
+                  <CreditCard className="h-3 w-3 mr-1" />
+                  Upgrade
+                </Button>
+              )}
             </div>
-          )}
-        </div>
+
+            {user && !hasSufficientBalance && (
+              <div className="mt-2 text-center">
+                <p className="text-xs text-red-500 mb-1">
+                  +R$ {(planPrice - userWalletBalance).toFixed(2)} para Upgrade
+                </p>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-xs text-green-600 hover:text-green-700 h-6 px-2"
+                  onClick={() =>
+                    navigate(
+                      `/dashboard/adicionar-saldo?valor=${(planPrice - userWalletBalance).toFixed(2)}`
+                    )
+                  }
+                >
+                  Adicionar Saldo
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     );
   };
@@ -431,8 +436,15 @@ const PublicPlansSection = () => {
   }
 
   return (
-    <section className="py-8 sm:py-10">
-      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+    <section className="py-8 sm:py-10 relative overflow-hidden">
+      {/* Background gradiente sutil (mesma linguagem do Depoimentos) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5 dark:from-purple-500/10 dark:to-blue-500/10" />
+
+      {/* Elementos decorativos */}
+      <div className="absolute top-4 left-4 w-20 h-20 bg-gradient-to-br from-brand-purple/10 to-transparent rounded-full blur-2xl" />
+      <div className="absolute bottom-4 right-4 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-2xl" />
+
+      <div className="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
         <div className="space-y-6">
           {Object.entries(groupedPlans).map(([categoryName, categoryPlans], categoryIndex) => {
             return (
@@ -455,9 +467,9 @@ const PublicPlansSection = () => {
                       {categoryPlans.length}
                     </span>
                   </div>
-                  
-                  <CarouselWithControls 
-                    categoryPlans={categoryPlans} 
+
+                  <CarouselWithControls
+                    categoryPlans={categoryPlans}
                     categoryName={categoryName}
                     PlanCard={PlanCard}
                   />
