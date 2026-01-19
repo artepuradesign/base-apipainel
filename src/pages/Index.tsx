@@ -10,15 +10,6 @@ import PageLayout from '@/components/layout/PageLayout';
 
 import SocialMediaButtons from '@/components/SocialMediaButtons';
 
-// Import AOS with type definition
-declare global {
-  interface Window {
-    AOS: {
-      init: (params: any) => void;
-      refresh: () => void;
-    }
-  }
-}
 
 const Index = () => {
 
