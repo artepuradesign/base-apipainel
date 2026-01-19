@@ -7,8 +7,6 @@ import { Search, Sparkles, ShieldCheck, Zap } from 'lucide-react';
 import { toast } from "sonner";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 
-import heroLoopVideo from "@/assets/hero-loop.mp4";
-
 const Hero = () => {
   const navigate = useNavigate();
   const [documentType, setDocumentType] = useState<string>("cpf");
@@ -161,23 +159,6 @@ const Hero = () => {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Vídeo de fundo sutil (desativado em reduce motion) */}
-      <div className="absolute inset-0 -z-20 motion-reduce:hidden" aria-hidden="true">
-        <video
-          className="h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-        >
-          <source src={heroLoopVideo} type="video/mp4" />
-        </video>
-      </div>
-
-      {/* Véu para manter legibilidade */}
-      <div className="absolute inset-0 -z-10 bg-background/80 dark:bg-background/70" aria-hidden="true" />
-
       <motion.div
         className="absolute inset-0"
         style={{ backgroundImage: spotlight }}
