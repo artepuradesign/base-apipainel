@@ -8,14 +8,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import LoginModal from "@/components/auth/LoginModal";
 import RegisterModal from "@/components/auth/RegisterModal";
 
-declare global {
-  interface Window {
-    AOS?: {
-      refresh?: () => void;
-    };
-  }
-}
-
 type Step = {
   number: number;
   title: string;
@@ -101,8 +93,7 @@ const ResponsiveHowItWorksSection = () => {
   };
 
   useEffect(() => {
-    const aos = (window as any).AOS;
-    if (aos?.refresh) aos.refresh();
+    window.AOS?.refresh?.();
   }, []);
 
   const steps = useMemo<Step[]>(
