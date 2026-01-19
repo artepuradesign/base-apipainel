@@ -40,27 +40,26 @@ const Index = () => {
   return (
     <PageLayout 
       variant="landing" 
-      backgroundOpacity="medium" 
-      showGradients={true}
+      backgroundOpacity="light" 
+      showGradients={false}
       className="flex flex-col"
     >
       <MenuSuperior />
-      
-      {/* Hero Section */}
-      <HeroSection />
-      
-      {/* Planos - sem div wrapper */}
-      <PublicPlansSection />
-      
-      {/* Content sections */}
-      <div className="w-full">
-        {/* Como Funciona - segunda seção */}
-        <ResponsiveHowItWorksSection />
 
-        {/* Depoimentos */}
-        <Testimonials />
-      </div>
-      
+      <main className="w-full">
+        {/* Hero Section */}
+        <HeroSection />
+
+        {/* Planos */}
+        <PublicPlansSection />
+
+        {/* Como funciona + Depoimentos */}
+        <section className="w-full">
+          <ResponsiveHowItWorksSection />
+          <Testimonials />
+        </section>
+      </main>
+
       <SimpleFooter />
       <SocialMediaButtons />
     </PageLayout>

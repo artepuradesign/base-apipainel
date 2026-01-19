@@ -7,6 +7,8 @@ import { Search, Sparkles, ShieldCheck, Zap } from 'lucide-react';
 import { toast } from "sonner";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 
+import heroLoopVideo from "@/assets/hero-loop.mp4";
+
 const Hero = () => {
   const navigate = useNavigate();
   const [documentType, setDocumentType] = useState<string>("cpf");
@@ -15,7 +17,7 @@ const Hero = () => {
   // Interação sutil (efeito "spotlight")
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mx}px ${my}px, hsl(var(--primary) / 0.12), transparent 60%)`;
+  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mx}px ${my}px, hsl(var(--primary) / 0.08), transparent 60%)`;
 
   // Verificar se o usuário está logado
   const isAuthenticated = () => {
@@ -159,6 +161,23 @@ const Hero = () => {
 
   return (
     <section className="relative overflow-hidden">
+      {/* Vídeo de fundo sutil (desativado em reduce motion) */}
+      <div className="absolute inset-0 -z-20 motion-reduce:hidden" aria-hidden="true">
+        <video
+          className="h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        >
+          <source src={heroLoopVideo} type="video/mp4" />
+        </video>
+      </div>
+
+      {/* Véu para manter legibilidade */}
+      <div className="absolute inset-0 -z-10 bg-background/80 dark:bg-background/70" aria-hidden="true" />
+
       <motion.div
         className="absolute inset-0"
         style={{ backgroundImage: spotlight }}
@@ -318,8 +337,8 @@ const Hero = () => {
 
               {/* Glow */}
               <div
-                className="pointer-events-none absolute -inset-6 -z-10 blur-2xl opacity-60"
-                style={{ background: 'radial-gradient(600px circle at 30% 30%, hsl(var(--primary) / 0.18), transparent 60%)' }}
+                className="pointer-events-none absolute -inset-6 -z-10 blur-2xl opacity-40"
+                style={{ background: 'radial-gradient(600px circle at 30% 30%, hsl(var(--primary) / 0.12), transparent 60%)' }}
                 aria-hidden="true"
               />
             </motion.div>
