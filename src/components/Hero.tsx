@@ -5,17 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search, Sparkles, ShieldCheck, Zap } from 'lucide-react';
 import { toast } from "sonner";
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 
 const Hero = () => {
   const navigate = useNavigate();
   const [documentType, setDocumentType] = useState<string>("cpf");
   const [documentNumber, setDocumentNumber] = useState<string>("");
 
-  // Interação sutil (efeito "spotlight")
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mx}px ${my}px, hsl(var(--primary) / 0.12), transparent 60%)`;
 
   // Verificar se o usuário está logado
   const isAuthenticated = () => {
@@ -159,16 +155,10 @@ const Hero = () => {
 
   return (
     <section className="relative overflow-hidden">
-      <motion.div
-        className="absolute inset-0"
-        style={{ backgroundImage: spotlight }}
-        onMouseMove={(e) => {
-          const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
-          mx.set(e.clientX - rect.left);
-          my.set(e.clientY - rect.top);
-        }}
-        aria-hidden="true"
-      />
+      {/* Background sutil (referência: Depoimentos) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 dark:from-primary/10 dark:to-secondary/10" aria-hidden="true" />
+      <div className="absolute top-6 left-6 h-28 w-28 rounded-full bg-primary/10 blur-2xl" aria-hidden="true" />
+      <div className="absolute bottom-6 right-6 h-32 w-32 rounded-full bg-secondary/10 blur-2xl" aria-hidden="true" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-10 sm:py-14">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
