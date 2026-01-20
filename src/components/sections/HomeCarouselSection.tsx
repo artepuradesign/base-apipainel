@@ -129,7 +129,7 @@ const HomeCarouselSection: React.FC = () => {
                     loading={idx === 0 ? "eager" : "lazy"}
                     className={cn(
                       "w-full object-cover",
-                      "h-[320px] sm:h-[380px] lg:h-[460px]",
+                      "h-[260px] sm:h-[380px] lg:h-[460px]",
                       "select-none"
                     )}
                   />
@@ -139,7 +139,7 @@ const HomeCarouselSection: React.FC = () => {
 
                   <div className="absolute inset-0">
                     <div className="container mx-auto px-4 sm:px-6 max-w-6xl h-full">
-                      <div className="h-full flex items-center">
+                      <div className="h-full flex items-center py-10 sm:py-12">
                         <div className="max-w-xl">
                           <motion.p
                             initial={{ opacity: 0, y: 10 }}
@@ -170,19 +170,21 @@ const HomeCarouselSection: React.FC = () => {
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -8 }}
                               transition={{ duration: 0.35, delay: 0.05 }}
-                              className="mt-2 text-sm sm:text-base text-muted-foreground leading-relaxed"
+                              className="mt-2 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-[42ch]"
                             >
                               {slide.subtitle}
                             </motion.p>
                           </AnimatePresence>
 
-                          <div className="mt-5 flex flex-wrap gap-2">
-                            <Button size="sm" onClick={() => navigate("/registration")}>
+                          <div className="mt-5 flex flex-col sm:flex-row flex-wrap gap-2">
+                            <Button size="sm" className="w-full sm:w-auto" onClick={() => navigate("/registration")}
+                            >
                               Começar agora
                             </Button>
                             <Button
                               size="sm"
                               variant="outline"
+                              className="w-full sm:w-auto"
                               onClick={() => navigate("/planos-publicos")}
                             >
                               Ver planos
@@ -197,13 +199,13 @@ const HomeCarouselSection: React.FC = () => {
             ))}
           </CarouselContent>
 
-          {/* Setas (estilo semelhante ao exemplo) */}
+          {/* Setas (desktop/tablet) */}
           <CarouselPrevious
-            className="left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-background/70 hover:bg-background/85 border-border/60"
+            className="hidden sm:flex left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-background/70 hover:bg-background/85 border-border/60"
             variant="outline"
           />
           <CarouselNext
-            className="right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-background/70 hover:bg-background/85 border-border/60"
+            className="hidden sm:flex right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-background/70 hover:bg-background/85 border-border/60"
             variant="outline"
           />
 
@@ -216,7 +218,7 @@ const HomeCarouselSection: React.FC = () => {
                 aria-label={`Ir para slide ${i + 1}`}
                 onClick={() => api?.scrollTo(i)}
                 className={cn(
-                  "h-2.5 w-2.5 rounded-full transition-all",
+                  "h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full transition-all",
                   i === active
                     ? "bg-primary"
                     : "bg-muted-foreground/40 hover:bg-muted-foreground/60"

@@ -34,7 +34,7 @@ const Index = () => {
     >
       <MenuSuperior />
 
-      <main className="w-full">
+      <main className="w-full overflow-x-hidden">
         {/* Destaques */}
         <HomeCarouselSection />
 
