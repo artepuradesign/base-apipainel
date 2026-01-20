@@ -1,7 +1,6 @@
 
 import React, { useEffect } from 'react';
 import MenuSuperior from '@/components/MenuSuperior';
-import HeroSection from '@/components/sections/HeroSection';
 import PublicPlansSection from '@/components/sections/PublicPlansSection';
 import Testimonials from '@/components/Testimonials';
 import SimpleFooter from '@/components/SimpleFooter';
@@ -38,17 +37,14 @@ const Index = () => {
       <MenuSuperior />
 
       <main className="w-full">
-        {/* Hero Section */}
-        <HeroSection />
+        {/* Como funciona */}
+        <ResponsiveHowItWorksSection />
 
         {/* Planos */}
         <PublicPlansSection />
 
-        {/* Como funciona + Depoimentos */}
-        <section className="w-full">
-          <ResponsiveHowItWorksSection />
-          <Testimonials />
-        </section>
+        {/* Depoimentos */}
+        <Testimonials />
       </main>
 
       <SimpleFooter />

@@ -13,23 +13,27 @@ import { useAuth } from "@/contexts/AuthContext";
 import LoginModal from "@/components/auth/LoginModal";
 import RegisterModal from "@/components/auth/RegisterModal";
 
+type StepButton = {
+  text: string;
+  action: () => void;
+  variant?: "default" | "outline";
+};
+
 type Step = {
   number: number;
   title: string;
   description: string;
-  buttonText: string;
-  buttonAction: () => void;
+  primaryButton: StepButton;
+  secondaryButton?: StepButton;
 };
 
-const StepCard = ({
-  step,
-  index,
-  imageSrc,
-}: {
+type StepCardProps = {
   step: Step;
   index: number;
   imageSrc?: string;
-}) => {
+};
+
+const StepCard: React.FC<StepCardProps> = ({ step, index, imageSrc }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -64,10 +68,21 @@ const StepCard = ({
             />
           </div>
 
-          <div className="mt-4 pt-4 border-t border-border/60">
-            <Button size="sm" className="w-full" onClick={step.buttonAction}>
-              {step.buttonText}
+          <div className="mt-4 pt-4 border-t border-border/60 space-y-2">
+            <Button size="sm" className="w-full" onClick={step.primaryButton.action}>
+              {step.primaryButton.text}
             </Button>
+
+            {step.secondaryButton && (
+              <Button
+                size="sm"
+                variant={step.secondaryButton.variant ?? "outline"}
+                className="w-full"
+                onClick={step.secondaryButton.action}
+              >
+                {step.secondaryButton.text}
+              </Button>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -95,6 +110,11 @@ const ResponsiveHowItWorksSection = () => {
   }, [user, pendingRedirect, navigate]);
 
   const handleCreateAccount = () => navigate("/registration");
+  const handleLogin = () => {
+    setPendingRedirect(null);
+    setShowRegisterModal(false);
+    setShowLoginModal(true);
+  };
   const handleViewPlans = () => navigate("/planos-publicos");
 
   const handleAddBalance = () => {
@@ -115,6 +135,11 @@ const ResponsiveHowItWorksSection = () => {
     }
   };
 
+  const handleAvailablePanels = () => {
+    // Não existe rota pública específica; direcionamos para o dashboard.
+    handleAccessPanels();
+  };
+
   useEffect(() => {
     window.AOS?.refresh?.();
   }, []);
@@ -125,29 +150,47 @@ const ResponsiveHowItWorksSection = () => {
         number: 1,
         title: "Crie sua conta",
         description: "Faça seu cadastro em menos de 1 minuto com e-mail e senha.",
-        buttonText: "Criar conta",
-        buttonAction: handleCreateAccount,
+        primaryButton: {
+          text: "Criar conta",
+          action: handleCreateAccount,
+        },
+        secondaryButton: {
+          text: "Entrar",
+          action: handleLogin,
+          variant: "outline",
+        },
       },
       {
         number: 2,
         title: "Escolha seu plano",
         description: "Selecione o plano ideal e comece a usar imediatamente.",
-        buttonText: "Ver planos",
-        buttonAction: handleViewPlans,
+        primaryButton: {
+          text: "Ver planos",
+          action: handleViewPlans,
+        },
       },
       {
         number: 3,
         title: "Pague ou recarregue",
         description: "Assine um plano ou recarregue saldo para economizar nas consultas.",
-        buttonText: "Adicionar saldo",
-        buttonAction: handleAddBalance,
+        primaryButton: {
+          text: "Adicionar saldo",
+          action: handleAddBalance,
+        },
       },
       {
         number: 4,
         title: "Faça suas consultas",
         description: "Acesse informações completas em segundos, com segurança e clareza.",
-        buttonText: "Acessar painéis",
-        buttonAction: handleAccessPanels,
+        primaryButton: {
+          text: "Acessar painéis",
+          action: handleAccessPanels,
+        },
+        secondaryButton: {
+          text: "Painéis disponíveis",
+          action: handleAvailablePanels,
+          variant: "outline",
+        },
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
