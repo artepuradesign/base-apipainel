@@ -2,6 +2,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
+import howItWorks01 from "@/assets/howitworks-01.png";
+import howItWorks02 from "@/assets/howitworks-02.png";
+import howItWorks03 from "@/assets/howitworks-03.png";
+import howItWorks04 from "@/assets/howitworks-04.png";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
@@ -16,7 +21,13 @@ type Step = {
   buttonAction: () => void;
 };
 
-const StepCard = ({ step, index }: { step: Step; index: number }) => {
+type StepCardProps = {
+  step: Step;
+  index: number;
+  imageSrc: string;
+};
+
+const StepCard = ({ step, index, imageSrc }: StepCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -27,7 +38,17 @@ const StepCard = ({ step, index }: { step: Step; index: number }) => {
     >
       <Card className="h-full bg-card/80 backdrop-blur-md border border-border/60 shadow-md hover:shadow-lg transition-all duration-300">
         <CardContent className="p-5 h-full flex flex-col">
-          <div className="flex items-start gap-3">
+          {/* Imagem (tamanho fixo) */}
+          <div className="flex justify-center">
+            <img
+              src={imageSrc}
+              alt={step.title}
+              loading="lazy"
+              className="w-64 max-w-full h-auto rounded-lg border border-border/60"
+            />
+          </div>
+
+          <div className="mt-4 flex items-start gap-3">
             <div className="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-semibold ring-1 ring-primary/15 flex-shrink-0">
               {step.number}
             </div>
@@ -131,6 +152,11 @@ const ResponsiveHowItWorksSection = () => {
     [user]
   );
 
+  const stepImages = useMemo(
+    () => [howItWorks01, howItWorks02, howItWorks03, howItWorks04],
+    []
+  );
+
   return (
     <section className="py-8 sm:py-10 relative overflow-hidden">
       {/* Background gradiente sutil (mesma linguagem do Depoimentos) */}
@@ -171,7 +197,12 @@ const ResponsiveHowItWorksSection = () => {
         {/* Grid organizado */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, index) => (
-            <StepCard key={step.number} step={step} index={index} />
+            <StepCard
+              key={step.number}
+              step={step}
+              index={index}
+              imageSrc={stepImages[index] ?? howItWorks01}
+            />
           ))}
         </div>
       </div>
