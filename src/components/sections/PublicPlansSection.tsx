@@ -224,18 +224,13 @@ const PublicPlansSection = () => {
   });
 
   const PlanCard = ({ plan, categoryName }: { plan: any, categoryName: string }) => {
-    const includedPanels = Array.isArray(plan.modules_included)
-      ? plan.modules_included
-      : Array.isArray(plan.features)
-        ? plan.features
-        : [];
-
+    const features = Array.isArray(plan.features) ? plan.features : [];
     const planPrice = parseFloat(plan.price) || 0;
     const userWalletBalance = balance?.saldo || 0;
     const hasSufficientBalance = user && userWalletBalance >= planPrice;
     
-    // Exibir somente os painéis incluídos no plano
-    const visibleFeatures = includedPanels;
+    // Mostrar todos os módulos/recursos suportados
+    const visibleFeatures = features;
     const remainingFeatures = 0;
     return (
       <div className="w-full max-w-[240px] mx-auto">
@@ -281,7 +276,7 @@ const PublicPlansSection = () => {
               {plan.description}
             </p>
 
-            {/* Painéis incluídos */}
+            {/* Features compactas */}
             <div className="space-y-1.5 mb-4 flex-grow">
               {visibleFeatures.map((feature: string, index: number) => (
                 <div key={index} className="flex items-start gap-1.5 text-xs text-gray-600 dark:text-gray-300">
