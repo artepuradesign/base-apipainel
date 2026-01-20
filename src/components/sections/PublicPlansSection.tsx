@@ -228,10 +228,12 @@ const PublicPlansSection = () => {
     const planPrice = parseFloat(plan.price) || 0;
     const userWalletBalance = balance?.saldo || 0;
     const hasSufficientBalance = user && userWalletBalance >= planPrice;
-    
-    // Mostrar todos os módulos/recursos suportados
-    const visibleFeatures = features;
-    const remainingFeatures = 0;
+
+    // Exibir um número fixo de módulos para manter altura padrão dos cards
+    const MAX_VISIBLE_FEATURES = 8;
+    const visibleFeatures = features.slice(0, MAX_VISIBLE_FEATURES);
+    const remainingFeatures = Math.max(0, features.length - MAX_VISIBLE_FEATURES);
+
     return (
       <div className="w-full max-w-[240px] mx-auto">
         <Card
