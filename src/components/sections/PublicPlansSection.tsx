@@ -237,11 +237,11 @@ const PublicPlansSection = () => {
     return (
       <div className="w-full max-w-[240px] mx-auto">
         <Card
-          className={`h-full min-h-[460px] bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-white/20 dark:border-gray-700/30 shadow-md hover:shadow-lg transition-all duration-300 group ${
+          className={`bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-white/20 dark:border-gray-700/30 shadow-md hover:shadow-lg transition-all duration-300 group ${
             plan.is_popular ? 'ring-1 ring-purple-400/40 dark:ring-purple-500/40' : ''
           }`}
         >
-          <CardContent className="p-4 h-full flex flex-col">
+          <CardContent className="p-4 flex flex-col">
             {/* Badge popular */}
             {plan.is_popular && (
               <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
@@ -279,7 +279,7 @@ const PublicPlansSection = () => {
             </p>
 
             {/* Features compactas */}
-            <div className="space-y-1.5 mb-4 flex-grow">
+            <div className="space-y-1.5 mb-4">
               {visibleFeatures.map((feature: string, index: number) => (
                 <div key={index} className="flex items-start gap-1.5 text-xs text-gray-600 dark:text-gray-300">
                   <Check className="h-3 w-3 text-green-500 shrink-0 mt-0.5" />
@@ -294,7 +294,7 @@ const PublicPlansSection = () => {
             </div>
 
             {/* Botões */}
-            <div className="space-y-1.5 mt-auto">
+            <div className="space-y-1.5">
               <Button
                 size="sm"
                 className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs h-8"
