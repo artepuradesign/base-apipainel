@@ -129,7 +129,7 @@ const HomeCarouselSection: React.FC = () => {
                     loading={idx === 0 ? "eager" : "lazy"}
                     className={cn(
                       "w-full object-cover",
-                      "h-[260px] sm:h-[380px] lg:h-[460px]",
+                      "h-[420px] sm:h-[380px] lg:h-[460px]",
                       "select-none"
                     )}
                   />
