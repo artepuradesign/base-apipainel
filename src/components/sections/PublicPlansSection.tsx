@@ -229,14 +229,13 @@ const PublicPlansSection = () => {
     const userWalletBalance = balance?.saldo || 0;
     const hasSufficientBalance = user && userWalletBalance >= planPrice;
     
-    // Mostrar 4 recursos visíveis
-    const visibleFeatures = features.slice(0, 4);
-    const remainingFeatures = features.length - 4;
-    
+    // Mostrar todos os módulos/recursos suportados
+    const visibleFeatures = features;
+    const remainingFeatures = 0;
     return (
       <div className="w-full max-w-[240px] mx-auto">
         <Card
-          className={`h-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-white/20 dark:border-gray-700/30 shadow-md hover:shadow-lg transition-all duration-300 group ${
+          className={`h-full min-h-[460px] bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-white/20 dark:border-gray-700/30 shadow-md hover:shadow-lg transition-all duration-300 group ${
             plan.is_popular ? 'ring-1 ring-purple-400/40 dark:ring-purple-500/40' : ''
           }`}
         >
@@ -282,7 +281,7 @@ const PublicPlansSection = () => {
               {visibleFeatures.map((feature: string, index: number) => (
                 <div key={index} className="flex items-start gap-1.5 text-xs text-gray-600 dark:text-gray-300">
                   <Check className="h-3 w-3 text-green-500 shrink-0 mt-0.5" />
-                  <span className="line-clamp-1">{feature}</span>
+                  <span className="leading-snug">{feature}</span>
                 </div>
               ))}
               {remainingFeatures > 0 && (
