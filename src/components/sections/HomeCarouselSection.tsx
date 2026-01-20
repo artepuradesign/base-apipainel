@@ -140,55 +140,61 @@ const HomeCarouselSection: React.FC = () => {
                   <div className="absolute inset-0">
                     <div className="container mx-auto px-4 sm:px-6 max-w-6xl h-full">
                       <div className="h-full flex items-center py-10 sm:py-12">
-                        <div className="max-w-xl">
-                          <motion.p
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.35 }}
-                            className="text-xs sm:text-sm font-medium text-muted-foreground"
-                          >
-                            Plataforma de consultas
-                          </motion.p>
-
-                          <AnimatePresence mode="wait">
-                            <motion.h1
-                              key={`title-${active}`}
-                              initial={{ opacity: 0, y: 14 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -10 }}
-                              transition={{ duration: 0.35 }}
-                              className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-foreground"
-                            >
-                              {slide.title}
-                            </motion.h1>
-                          </AnimatePresence>
-
-                          <AnimatePresence mode="wait">
+                        <div className="w-full sm:max-w-xl text-center sm:text-left">
+                          {/* Card de legibilidade no mobile */}
+                          <div className="mx-auto sm:mx-0 max-w-[520px] rounded-xl bg-background/55 backdrop-blur-md ring-1 ring-border/60 p-4 sm:p-0 sm:rounded-none sm:bg-transparent sm:backdrop-blur-0 sm:ring-0">
                             <motion.p
-                              key={`subtitle-${active}`}
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -8 }}
-                              transition={{ duration: 0.35, delay: 0.05 }}
-                              className="mt-2 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-[42ch]"
+                              transition={{ duration: 0.35 }}
+                              className="text-xs sm:text-sm font-medium text-muted-foreground"
                             >
-                              {slide.subtitle}
+                              Plataforma de consultas
                             </motion.p>
-                          </AnimatePresence>
 
-                          <div className="mt-5 flex flex-col sm:flex-row flex-wrap gap-2">
-                            <Button size="sm" className="w-full sm:w-auto" onClick={() => navigate("/registration")}
-                            >
-                              Começar agora
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="w-full sm:w-auto"
-                              onClick={() => navigate("/planos-publicos")}
-                            >
-                              Ver planos
-                            </Button>
+                            <AnimatePresence mode="wait">
+                              <motion.h1
+                                key={`title-${active}`}
+                                initial={{ opacity: 0, y: 14 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.35 }}
+                                className="mt-2 text-[22px] leading-tight sm:text-3xl lg:text-4xl font-bold tracking-tight text-foreground"
+                              >
+                                {slide.title}
+                              </motion.h1>
+                            </AnimatePresence>
+
+                            <AnimatePresence mode="wait">
+                              <motion.p
+                                key={`subtitle-${active}`}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -8 }}
+                                transition={{ duration: 0.35, delay: 0.05 }}
+                                className="mt-2 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-[42ch] mx-auto sm:mx-0"
+                              >
+                                {slide.subtitle}
+                              </motion.p>
+                            </AnimatePresence>
+
+                            <div className="mt-4 sm:mt-5 flex flex-col sm:flex-row flex-wrap gap-2">
+                              <Button
+                                size="sm"
+                                className="w-full sm:w-auto"
+                                onClick={() => navigate("/registration")}
+                              >
+                                Começar agora
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="w-full sm:w-auto"
+                                onClick={() => navigate("/planos-publicos")}
+                              >
+                                Ver planos
+                              </Button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -232,13 +238,13 @@ const HomeCarouselSection: React.FC = () => {
       {/* Barra de benefícios (como no exemplo abaixo do banner) */}
       <div className="border-y border-border/60 bg-card/60 backdrop-blur-md">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 py-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 py-3 sm:py-4">
             {benefits.map((b, idx) => (
               <div
                 key={idx}
-                className="flex items-center justify-center sm:justify-start gap-2 rounded-md px-2"
+                className="flex items-center justify-start gap-3 rounded-md px-2 sm:px-2"
               >
-                <div className="h-8 w-8 rounded-full bg-primary/10 ring-1 ring-primary/15 flex items-center justify-center">
+                <div className="h-9 w-9 sm:h-8 sm:w-8 rounded-full bg-primary/10 ring-1 ring-primary/15 flex items-center justify-center flex-shrink-0">
                   {b.icon}
                 </div>
                 <div className="text-left">
