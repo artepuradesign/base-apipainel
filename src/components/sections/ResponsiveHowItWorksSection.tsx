@@ -21,13 +21,15 @@ type Step = {
   buttonAction: () => void;
 };
 
-type StepCardProps = {
+const StepCard = ({
+  step,
+  index,
+  imageSrc,
+}: {
   step: Step;
   index: number;
-  imageSrc: string;
-};
-
-const StepCard = ({ step, index, imageSrc }: StepCardProps) => {
+  imageSrc?: string;
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -38,17 +40,7 @@ const StepCard = ({ step, index, imageSrc }: StepCardProps) => {
     >
       <Card className="h-full bg-card/80 backdrop-blur-md border border-border/60 shadow-md hover:shadow-lg transition-all duration-300">
         <CardContent className="p-5 h-full flex flex-col">
-          {/* Imagem (tamanho fixo) */}
-          <div className="flex justify-center">
-            <img
-              src={imageSrc}
-              alt={step.title}
-              loading="lazy"
-              className="w-64 max-w-full h-auto rounded-lg border border-border/60"
-            />
-          </div>
-
-          <div className="mt-4 flex items-start gap-3">
+          <div className="flex items-start gap-3">
             <div className="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-semibold ring-1 ring-primary/15 flex-shrink-0">
               {step.number}
             </div>
@@ -60,6 +52,16 @@ const StepCard = ({ step, index, imageSrc }: StepCardProps) => {
                 {step.description}
               </p>
             </div>
+          </div>
+
+          {/* Imagem (tamanho fixo) - antes do botão */}
+          <div className="mt-4 flex justify-center">
+            <img
+              src={imageSrc ?? howItWorks01}
+              alt={step.title}
+              loading="lazy"
+              className="w-64 max-w-full h-auto rounded-lg border border-border/60"
+            />
           </div>
 
           <div className="mt-4 pt-4 border-t border-border/60">
